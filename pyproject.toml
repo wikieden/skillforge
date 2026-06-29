@@ -1,0 +1,41 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "skillforge"
+version = "0.1.0a0"
+description = "An ENPIRE-style autonomous self-learning lab for the Chronotope stack — the closed EN-PI-R-E loop (Environment, Policy Improvement, Rollout, Evolution) that lets a body acquire a skill from its own trials. Network-free at the core; a real robot + LLM author fill the same protocols."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "wikieden" }]
+dependencies = ["tempomem", "mindloop", "bodylink"]
+
+[project.optional-dependencies]
+# The real policy author (Codex / Claude Code / OpenAI-compatible endpoint) lives
+# behind [llm] — the core loop self-closes with the stdlib ScriptedAuthor.
+llm = []
+dev = ["pytest", "pytest-cov", "ruff", "pyright"]
+
+[project.urls]
+Brain = "https://github.com/wikieden/mindloop"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/skillforge"]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "PERF", "RUF"]
+
+[tool.pyright]
+include = ["src/skillforge"]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]

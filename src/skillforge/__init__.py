@@ -1,0 +1,57 @@
+"""skillforge — an ENPIRE-style autonomous self-learning lab for the Chronotope stack.
+
+The closed loop **EN → PI → R → E**: an Environment that resets + scores (EN), a
+PolicyAuthor that rewrites the policy from experience (PI), a budgeted Rollout (R),
+and an Evolution loop that compounds attempts into a skill (E). Network-free at the
+core (`ScriptedAuthor` + `bodylink.MockBody` + `MockEnvironment`); a real robot + an
+LLM author fill the same protocols, with no change to the loop. See
+docs/en/architecture.md.
+"""
+
+from __future__ import annotations
+
+from .author import PolicyAuthor, ScriptedAuthor
+from .environment import STEP_ROBOT_MS, Environment, MockEnvironment
+from .evolution import EvolutionResult, evolve
+from .lab import Lab, LabResult
+from .metrics import LabMetrics, compute, pass_at_k
+from .policy import Policy
+from .reward import Reward, distance_to_target, object_at_pose, score
+from .rollout import RolloutLog, StepLog, run_episode
+from .store import AttemptSummary, TreeStore
+from .task import Goal, SceneObject, Task, Vec3
+from .tree import Attempt, AttemptTree
+
+__version__ = "0.1.0a0"
+
+__all__ = [
+    "STEP_ROBOT_MS",
+    "Attempt",
+    "AttemptSummary",
+    "AttemptTree",
+    "Environment",
+    "EvolutionResult",
+    "Goal",
+    "Lab",
+    "LabMetrics",
+    "LabResult",
+    "MockEnvironment",
+    "Policy",
+    "PolicyAuthor",
+    "Reward",
+    "RolloutLog",
+    "SceneObject",
+    "ScriptedAuthor",
+    "StepLog",
+    "Task",
+    "TreeStore",
+    "Vec3",
+    "__version__",
+    "compute",
+    "distance_to_target",
+    "evolve",
+    "object_at_pose",
+    "pass_at_k",
+    "run_episode",
+    "score",
+]
