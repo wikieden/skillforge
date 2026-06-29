@@ -6,6 +6,21 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- **Full-stack integration scenario harness** (`scenario.py`) — the production
+  e2e capstone. `ScenarioRunner.run(household_suite())` drives a production-wired
+  `mindloop.Brain` (Phylax safety + bounded Replanner + TraceStore + world-state +
+  scene-context) through household `Scenario`s and scores the owner's production
+  bar: planning accuracy, policy compliance, replan success, task **success rate**,
+  p95 **latency**, plus an auditable **trace** per scenario. `IntegrationReport.meets()`
+  is one go/no-go. **Baseline mode is fully deterministic + network-free** (Scripted
+  reasoner/planner + a fail-once body) — the CI gate; the same harness takes a
+  custom `brain_factory` for the real-LLM (FailoverVerbalizer→host) + Genesis-sim
+  validation pass. `household_suite()` covers question / fetch / replan-recover /
+  safety-block / multi-turn-dialogue. Runnable: `examples/integration_e2e.py`.
+  See docs/en/INTEGRATION-E2E.md.
+
 ## [0.1.0a0] — 2026-06-18
 
 ### Added

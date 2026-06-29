@@ -18,6 +18,15 @@ from .metrics import LabMetrics, compute, pass_at_k
 from .policy import Policy
 from .reward import Reward, distance_to_target, object_at_pose, score
 from .rollout import RolloutLog, StepLog, run_episode
+from .scenario import (
+    IntegrationReport,
+    Scenario,
+    ScenarioResult,
+    ScenarioRunner,
+    TurnSpec,
+    baseline_brain,
+    household_suite,
+)
 from .store import AttemptSummary, TreeStore
 from .task import Goal, SceneObject, Task, Vec3
 from .tree import Attempt, AttemptTree
@@ -32,6 +41,7 @@ __all__ = [
     "Environment",
     "EvolutionResult",
     "Goal",
+    "IntegrationReport",
     "Lab",
     "LabMetrics",
     "LabResult",
@@ -40,16 +50,22 @@ __all__ = [
     "PolicyAuthor",
     "Reward",
     "RolloutLog",
+    "Scenario",
+    "ScenarioResult",
+    "ScenarioRunner",
     "SceneObject",
     "ScriptedAuthor",
     "StepLog",
     "Task",
     "TreeStore",
+    "TurnSpec",
     "Vec3",
     "__version__",
+    "baseline_brain",
     "compute",
     "distance_to_target",
     "evolve",
+    "household_suite",
     "object_at_pose",
     "pass_at_k",
     "run_episode",
