@@ -17,13 +17,20 @@ from .rollout import RolloutLog
 
 @dataclass(frozen=True, slots=True)
 class Attempt:
-    """One node in the attempt tree."""
+    """One node in the attempt tree.
+
+    `holdout_score` is the candidate's score on the held-out set and `accepted`
+    is the gate's verdict (see `evolution.evolve`); both default so attempts built
+    without a gate (e.g. in unit tests) stay valid.
+    """
 
     id: int
     parent_id: int | None
     policy: Policy
     log: RolloutLog
     author_tokens: int
+    holdout_score: float = 0.0
+    accepted: bool = True
 
     @property
     def success(self) -> bool:

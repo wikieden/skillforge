@@ -11,7 +11,7 @@ same protocol (reset = a homing routine; observe = `worldsense` detections).
 from __future__ import annotations
 
 import logging
-from collections.abc import Iterable, Sequence
+from collections.abc import Callable, Iterable, Sequence
 from typing import Any, Protocol, runtime_checkable
 
 import numpy as np
@@ -19,7 +19,7 @@ from mindloop import ExecutorAdapter, StatusUpdate, SubTask, TaskStatus
 from tempomem import Detection
 
 from .reward import Reward, score
-from .task import Goal, SceneObject, Vec3
+from .task import Goal, SceneObject, Task, Vec3
 
 _log = logging.getLogger("skillforge.environment")
 
@@ -106,3 +106,21 @@ class MockEnvironment:
             if obj is not None:
                 self._world[nid] = SceneObject(obj.node_id, obj.label, xyz)
                 _log.debug("placed node %d (%s) at %s", nid, obj.label, xyz)
+
+
+# An environment builder: given a Task, produce a fresh Environment for its scene.
+# Lets the evolution loop score a policy on held-out (validation) tasks, each in
+# its own world, rather than only on the one scene a single env is bound to.
+EnvFactory = Callable[[Task], Environment]
+
+
+def mock_env_factory(body: ExecutorAdapter) -> EnvFactory:
+    """Build a `MockEnvironment` for any task's `initial_scene`, reusing one body.
+
+    `MockBody` is stateless, so the same body safely drives every task's env.
+    """
+
+    def make(task: Task) -> Environment:
+        return MockEnvironment(body, task.initial_scene)
+
+    return make

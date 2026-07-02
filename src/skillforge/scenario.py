@@ -41,12 +41,12 @@ from mindloop import (
     TaskStatus,
     TraceStore,
 )
-from tempomem import Detection, SpatialMemory
+from tempomem import Detection, TempoMem
 
 _DIM = 16
 
 # A production Brain is built per scenario from its memory + trace.
-BrainFactory = Callable[[SpatialMemory, TraceStore], Brain]
+BrainFactory = Callable[[TempoMem, TraceStore], Brain]
 
 
 @dataclass(frozen=True, slots=True)
@@ -170,8 +170,8 @@ def _feat(seed: int) -> np.ndarray:
     return v / np.linalg.norm(v)
 
 
-def _build_memory(objects: Sequence[tuple[str, tuple[float, float, float]]]) -> SpatialMemory:
-    mem = SpatialMemory.open(":memory:", embedding_dim=_DIM)
+def _build_memory(objects: Sequence[tuple[str, tuple[float, float, float]]]) -> TempoMem:
+    mem = TempoMem.open(":memory:", embedding_dim=_DIM)
     for i, (name, c) in enumerate(objects, start=1):
         lo = (c[0] - 0.1, c[1] - 0.1, c[2] - 0.1)
         hi = (c[0] + 0.1, c[1] + 0.1, c[2] + 0.1)
@@ -188,7 +188,7 @@ def baseline_brain(scenario: Scenario) -> BrainFactory:
     the loop/safety/replan/trace logic is exercised with zero network.
     """
 
-    def factory(mem: SpatialMemory, trace: TraceStore) -> Brain:
+    def factory(mem: TempoMem, trace: TraceStore) -> Brain:
         body: MockBody = _FlakyOnceBody(scenario.fail_once) if scenario.fail_once else MockBody()
         policy = Phylax(Policy(adult_only_verbs=frozenset(scenario.adult_only)))
         # intents values are valid Intent literals ("task"/"question"/"chat") at runtime

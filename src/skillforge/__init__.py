@@ -11,8 +11,15 @@ docs/en/architecture.md.
 from __future__ import annotations
 
 from .author import PolicyAuthor, ScriptedAuthor
-from .environment import STEP_ROBOT_MS, Environment, MockEnvironment
+from .environment import (
+    STEP_ROBOT_MS,
+    EnvFactory,
+    Environment,
+    MockEnvironment,
+    mock_env_factory,
+)
 from .evolution import EvolutionResult, evolve
+from .gate import GateAction, GateResult, evaluate_gate
 from .lab import Lab, LabResult
 from .metrics import LabMetrics, compute, pass_at_k
 from .policy import Policy
@@ -38,8 +45,11 @@ __all__ = [
     "Attempt",
     "AttemptSummary",
     "AttemptTree",
+    "EnvFactory",
     "Environment",
     "EvolutionResult",
+    "GateAction",
+    "GateResult",
     "Goal",
     "IntegrationReport",
     "Lab",
@@ -64,8 +74,10 @@ __all__ = [
     "baseline_brain",
     "compute",
     "distance_to_target",
+    "evaluate_gate",
     "evolve",
     "household_suite",
+    "mock_env_factory",
     "object_at_pose",
     "pass_at_k",
     "run_episode",

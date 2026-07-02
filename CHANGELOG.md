@@ -8,6 +8,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Acceptance gate for the Evolution loop** (`gate.py`) — discipline ported (not
+  code) from microsoft/SkillOpt: `evaluate_gate` accepts a candidate policy only
+  when its held-out score **strictly improves** on the current accepted score
+  (ties rejected) → `GateResult{accept | accept_new_best | reject}`, a pure
+  stdlib function over `Reward.value`. `evolve()` now scores each candidate, vetoes
+  regressions (rejected attempts are still recorded for the audit trail but do not
+  advance the lineage), and accepts `val_tasks` + an `env_for` `EnvFactory`
+  (`mock_env_factory`) to gate on a **non-leaky held-out split** rather than the
+  task it optimizes on; `Attempt` gains `holdout_score` + `accepted`. Closes the
+  "scripted-to-succeed / no validation gate" gap from the architecture review.
 - **Full-stack integration scenario harness** (`scenario.py`) — the production
   e2e capstone. `ScenarioRunner.run(household_suite())` drives a production-wired
   `mindloop.Brain` (Phylax safety + bounded Replanner + TraceStore + world-state +
