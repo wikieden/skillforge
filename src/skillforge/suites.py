@@ -1,4 +1,4 @@
-"""Task-family baseline suites (4a) — TASK-FAMILIES §1–§5 + §7b, D-F coverage.
+"""Task-family baseline suites (4a) — TASK-FAMILIES §1-§5 + §7b, D-F coverage.
 
 Six deterministic, network-free suites over the `Scenario` harness. Each suite
 declares `required_metrics` (D-F): metrics that MUST be exercised — a suite
