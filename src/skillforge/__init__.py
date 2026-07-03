@@ -37,6 +37,7 @@ from .scenario import (
 from .store import AttemptSummary, TreeStore
 from .suites import Suite, all_suites
 from .task import Goal, SceneObject, Task, Vec3
+from .templates import find_template, privacy_template, tidy_template
 from .tree import Attempt, AttemptTree
 
 __version__ = "0.1.0a0"
@@ -79,10 +80,13 @@ __all__ = [
     "distance_to_target",
     "evaluate_gate",
     "evolve",
+    "find_template",
     "household_suite",
     "mock_env_factory",
     "object_at_pose",
     "pass_at_k",
+    "privacy_template",
     "run_episode",
     "score",
+    "tidy_template",
 ]
