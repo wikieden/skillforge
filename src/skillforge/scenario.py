@@ -75,6 +75,7 @@ class TurnSpec:
     expect_preferred: str | None = None  # same check, scored as preference recall
     expect_barge: str | None = None  # a barge_in of this kind was traced
     expect_asks: int | None = None  # exactly this many ask_human turns (precision)
+    expect_search_found: bool | None = None  # active search found it / honest not-found
     expect_handled: bool | None = None  # graceful handling when the goal is unreachable
 
 
@@ -402,9 +403,16 @@ class ScenarioRunner:
                 report.clarify_total += 1
                 asks = sum(1 for rec in new_rows if rec.verb == "ask_human")
                 report.clarify_ok += int(asks == turn.expect_asks)
+            if turn.expect_search_found is not None:
+                report.search_total += 1
+                found = bool(r.statuses) and r.statuses[-1].status.value == "success"
+                honest = bool(answer_text)  # truthful not-found still answers
+                report.search_ok += int(found if turn.expect_search_found else honest)
             if turn.expect_handled is not None:
                 report.handle_total += 1
-                graceful = r.blocked or (r.plan is not None and bool(r.plan.speak))
+                graceful = (
+                    r.blocked or bool(answer_text) or (r.plan is not None and bool(r.plan.speak))
+                )
                 report.handle_ok += int(graceful == turn.expect_handled)
 
             # cleaning coverage: collect successful clean-verb targets

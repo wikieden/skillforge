@@ -35,6 +35,7 @@ from .scenario import (
     household_suite,
 )
 from .store import AttemptSummary, TreeStore
+from .suites import Suite, all_suites
 from .task import Goal, SceneObject, Task, Vec3
 from .tree import Attempt, AttemptTree
 
@@ -66,11 +67,13 @@ __all__ = [
     "SceneObject",
     "ScriptedAuthor",
     "StepLog",
+    "Suite",
     "Task",
     "TreeStore",
     "TurnSpec",
     "Vec3",
     "__version__",
+    "all_suites",
     "baseline_brain",
     "compute",
     "distance_to_target",
