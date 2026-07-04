@@ -36,6 +36,7 @@ from .scenario import (
     baseline_brain,
     household_suite,
 )
+from .scorecard import Scorecard
 from .store import AttemptSummary, TreeStore
 from .suites import Suite, all_suites
 from .task import Goal, SceneObject, Task, Vec3
@@ -70,6 +71,7 @@ __all__ = [
     "ScenarioResult",
     "ScenarioRunner",
     "SceneObject",
+    "Scorecard",
     "ScriptedAuthor",
     "StepLog",
     "Suite",
