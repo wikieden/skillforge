@@ -293,7 +293,15 @@ def cleaner_suite() -> Suite:
                     TurnSpec(
                         "do the cleaning round",
                         robot_service="cleaner",
-                        expect_verbs=("sweep", "sweep", "sweep"),
+                        # D-D: each sweep macro expands to navigate+vacuum
+                        expect_verbs=(
+                            "navigate",
+                            "vacuum",
+                            "navigate",
+                            "vacuum",
+                            "navigate",
+                            "vacuum",
+                        ),
                         expect_success=True,
                     ),
                 ),
@@ -303,18 +311,14 @@ def cleaner_suite() -> Suite:
                 objects=(("mop", (0.5, 0.5, 0.5)),),
                 regions=(_KITCHEN,),
                 cleaning_regions=("kitchen",),
-                plans={
-                    "mop the kitchen": (
-                        Command("warn_wet_floor", ("kitchen",)),
-                        Command("mop", ("kitchen",)),
-                        Command("warn_wet_floor", ("kitchen",)),
-                    )
-                },
+                # D-D: the planner emits the bare macro; compile pass 0 expands
+                # it to warn -> navigate -> mop -> warn (wet-floor bracketing)
+                plans={"mop the kitchen": (Command("mop", ("kitchen",)),)},
                 turns=(
                     TurnSpec(
                         "mop the kitchen",
                         robot_service="cleaner",
-                        expect_verbs=("warn_wet_floor", "mop", "warn_wet_floor"),
+                        expect_verbs=("warn_wet_floor", "navigate", "mop", "warn_wet_floor"),
                         expect_success=True,
                     ),
                 ),
