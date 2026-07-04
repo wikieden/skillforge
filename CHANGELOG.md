@@ -8,6 +8,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Sim-body e2e pass** (`examples/sim_e2e.py`, INTEGRATION-E2E phase 3) — every
+  physically-meaningful baseline scenario (21) runs through `SimDeviceAdapter` +
+  `GenesisSimBackend` (real physics stepping, CPU) instead of `MockBody`:
+  same brain spine, gated verbs realized in a Genesis scene. 21/21 GO in ~48 s;
+  scripted-body drills (fail-once/barge/clarify fixtures) stay on MockBody by design.
+
+
 - **Acceptance gate for the Evolution loop** (`gate.py`) — discipline ported (not
   code) from microsoft/SkillOpt: `evaluate_gate` accepts a candidate policy only
   when its held-out score **strictly improves** on the current accepted score
