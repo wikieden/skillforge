@@ -8,6 +8,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Real-LLM validation pass** (`examples/real_llm_e2e.py`, INTEGRATION-E2E
+  phase 2 / build step 5) — the full brain driven by the production reasoner
+  (Cosmos-Reason2-8B on the RTX PRO host via vLLM): real intent routing, real
+  planning -> compile -> Phylax, real cited answers; `temperature=0` + fixed
+  seed (reproducible). 4/4 scenarios GO (intent, canonical fetch plan, child
+  safety block, guest region privacy, citations), turn p95 ~0.25 s.
+
+
 - **Sim-body e2e pass** (`examples/sim_e2e.py`, INTEGRATION-E2E phase 3) — every
   physically-meaningful baseline scenario (21) runs through `SimDeviceAdapter` +
   `GenesisSimBackend` (real physics stepping, CPU) instead of `MockBody`:
