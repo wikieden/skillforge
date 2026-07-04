@@ -30,6 +30,43 @@ class Reward:
     value: float
 
 
+@dataclass(frozen=True, slots=True)
+class Weights:
+    """D-G composite-reward weights over the three outcome categories.
+
+    The ordering ``task > handle > honesty`` is the ratified invariant
+    (TASK-FAMILIES D-G): the loop must never learn to prefer graceful declining
+    over actually completing the task. Defaults are the ratified 0.6/0.25/0.15.
+    """
+
+    task: float = 0.6
+    handle: float = 0.25
+    honesty: float = 0.15
+
+    def __post_init__(self) -> None:
+        if not (self.task > self.handle > self.honesty > 0.0):
+            raise ValueError(
+                f"D-G requires w_task > w_handle > w_honesty > 0, "
+                f"got {self.task}/{self.handle}/{self.honesty}"
+            )
+
+
+def composite_score(
+    task_rate: float,
+    handle_rate: float,
+    honesty_rate: float,
+    *,
+    weights: Weights | None = None,
+) -> float:
+    """The D-G ENPIRE training signal: weighted sum of the three outcome rates.
+
+    Rates are in [0, 1]; the result is in [0, 1] when weights sum to 1. This is
+    the shaping signal only — go/no-go (`meets`) gates on task success alone.
+    """
+    w = weights if weights is not None else Weights()
+    return w.task * task_rate + w.handle * handle_rate + w.honesty * honesty_rate
+
+
 def _dist(a: Vec3, b: Vec3) -> float:
     return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3)))
 

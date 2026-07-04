@@ -25,7 +25,7 @@ from .gate import GateAction, GateResult, evaluate_gate
 from .lab import Lab, LabResult
 from .metrics import LabMetrics, compute, pass_at_k
 from .policy import Policy
-from .reward import Reward, distance_to_target, object_at_pose, score
+from .reward import Reward, Weights, composite_score, distance_to_target, object_at_pose, score
 from .rollout import RolloutLog, StepLog, run_episode
 from .scenario import (
     IntegrationReport,
@@ -77,9 +77,11 @@ __all__ = [
     "TreeStore",
     "TurnSpec",
     "Vec3",
+    "Weights",
     "__version__",
     "all_suites",
     "baseline_brain",
+    "composite_score",
     "compute",
     "crystallize",
     "curate",

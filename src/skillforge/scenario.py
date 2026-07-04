@@ -46,6 +46,8 @@ from mindloop import (
 )
 from tempomem import Detection, TempoMem
 
+from .reward import Weights, composite_score
+
 _DIM = 16
 
 # A production Brain is built per scenario from its memory + trace.
@@ -162,6 +164,17 @@ class IntegrationReport:
             return 0.0
         i = min(len(xs) - 1, round((pct / 100.0) * (len(xs) - 1)))
         return xs[i]
+
+    def composite_score(self, weights: Weights | None = None) -> float:
+        """D-G composite reward over the run: w·task + w·handled + w·honesty.
+
+        The ENPIRE training signal (shaping only) — `meets()` below stays gated
+        on task success alone, so handled/honesty can never buy a GO.
+        """
+        combined = self.combined
+        return composite_score(
+            self.success_rate, combined.handle_rate, combined.honesty_rate, weights=weights
+        )
 
     @property
     def combined(self) -> EvalReport:
