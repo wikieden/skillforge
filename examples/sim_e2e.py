@@ -20,9 +20,8 @@ from pathlib import Path
 
 # SimDeviceAdapter is bodylink's reference *example* device package
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "bodylink" / "examples"))
-from sim_device import SimDeviceAdapter  # noqa: E402
-
-from mindloop import (  # noqa: E402
+from bodylink import SceneObject, g1d_manifest, make_sim_backend
+from mindloop import (
     Brain,
     Phylax,
     Policy,
@@ -32,10 +31,10 @@ from mindloop import (  # noqa: E402
     ScriptedReasoner,
     load_menu,
 )
-from bodylink import SceneObject, g1d_manifest, make_sim_backend  # noqa: E402
+from sim_device import SimDeviceAdapter
 
-from skillforge import ScenarioRunner, all_suites, household_suite  # noqa: E402
-from skillforge.scenario import Scenario  # noqa: E402
+from skillforge import ScenarioRunner, all_suites, household_suite
+from skillforge.scenario import Scenario
 
 
 def _physical(sc: Scenario) -> bool:
@@ -43,7 +42,7 @@ def _physical(sc: Scenario) -> bool:
     return not sc.fail and not sc.fail_once and not sc.barge_first_step and not sc.clarify_default
 
 
-def _sim_factory(sc: Scenario, backend) -> "callable":
+def _sim_factory(sc: Scenario, backend) -> callable:
     """baseline_brain's wiring, with the Genesis-backed device as the body."""
 
     def factory(mem, trace):
@@ -88,8 +87,9 @@ def main() -> int:
         # objects were inserted first in _build_memory -> node ids 1..N in order
         objs = [SceneObject(name, pos) for name, pos in sc.objects]
         node_map = {i + 1: name for i, (name, _) in enumerate(sc.objects)}
-        backend = make_sim_backend("genesis", objects=objs, node_map=node_map,
-                                   compute_backend="cpu", settle_steps=5)
+        backend = make_sim_backend(
+            "genesis", objects=objs, node_map=node_map, compute_backend="cpu", settle_steps=5
+        )
         try:
             report = ScenarioRunner(brain_factory=_sim_factory(sc, backend)).run([sc])
         finally:
@@ -97,8 +97,10 @@ def main() -> int:
         reports.append((sc.name, report))
         passed = report.meets()
         ok += int(passed)
-        print(f"  {'GO ' if passed else 'NO-GO'}  {sc.name}"
-              f"  (success={report.success_rate:.0%}, p95={report.p_latency():.0f}ms)")
+        print(
+            f"  {'GO ' if passed else 'NO-GO'}  {sc.name}"
+            f"  (success={report.success_rate:.0%}, p95={report.p_latency():.0f}ms)"
+        )
 
     dt = time.perf_counter() - t0
     print(f"\n{ok}/{len(scenarios)} scenarios GO through the physics body in {dt:.1f}s")
