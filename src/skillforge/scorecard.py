@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 __all__ = ["Scorecard"]
 
 # trace verbs that are not body skills (brain-side decisions) — never scored
-_NON_SKILL_VERBS: frozenset[str] = frozenset({"barge_in", "ask_human"})
+_NON_SKILL_VERBS: frozenset[str] = frozenset({"barge_in", "ask_human", "serve_mode"})
 
 
 class Scorecard:
@@ -57,8 +57,8 @@ class Scorecard:
         """Aggregate a production trace's dispatch outcomes (source 2 of D-P).
 
         Counts terminal success/failed rows for skill verbs; brain-side rows
-        (barge_in / ask_human) and skips are not competence signals. Returns
-        the number of rows consumed.
+        (barge_in / ask_human / serve_mode) and skips are not competence
+        signals. Returns the number of rows consumed.
         """
         n = 0
         for r in trace.episodes(limit=1_000_000):

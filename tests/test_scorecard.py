@@ -55,6 +55,21 @@ def test_observe_trace_aggregates_dispatch_outcomes() -> None:
     tr.close()
 
 
+def test_observe_trace_skips_brain_side_verbs() -> None:
+    # serve_mode (P7.4 tier telemetry) logs SUCCESS but is not a body skill
+    tr = TraceStore(":memory:")
+    _log(tr, "serve_mode", True)
+    _log(tr, "barge_in", True)
+    _log(tr, "grasp", True)
+    sc = Scorecard()
+    n = sc.observe_trace(tr, body_profile="g1d")
+    assert n == 1  # only the skill row consumed
+    assert sc.rate("serve_mode", "g1d") is None
+    assert sc.rate("barge_in", "g1d") is None
+    assert sc.rate("grasp", "g1d") == 1.0
+    tr.close()
+
+
 def test_annotate_fills_verbspec_reliability() -> None:
     sc = Scorecard()
     sc.record("grasp", "g1d", "fragile", success=False)
