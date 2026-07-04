@@ -100,7 +100,8 @@ class LLMPolicyAuthor:
         for a in history:
             plan = (
                 " | ".join(
-                    f"{s.verb} {','.join(map(str, s.target_node_ids))} -> {s.params.get('location')}"
+                    f"{s.verb} {','.join(map(str, s.target_node_ids))} "
+                    f"-> {s.params.get('location')}"
                     for s in a.policy.subtasks
                 )
                 or "(empty)"
