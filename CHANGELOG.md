@@ -8,6 +8,16 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Data/training closed loop** (step 6, FLOWS diagram 5) — the learn→reuse arc
+  is now end-to-end (`examples/learning_loop.py`): `evolve` (SkillOpt gate) →
+  `crystallize` (winning policy → Episteme `SkillCard`, `provenance="learned"`,
+  never carries safety annotations — D-L) → a fresh Brain plans FROM the learned
+  card via `SkillCardPlanner` → `curate` (trace → home-scoped dataset,
+  `barge_in`/`ask_human` speech scrubbed by default, cross-home `merge` refused —
+  constraints O/P). `LLMPolicyAuthor` fills the PI seam with a BYO Verbalizer
+  (host Cosmos at runtime, scripted stub in tests). +13 tests (39).
+
+
 - **Real-LLM validation pass** (`examples/real_llm_e2e.py`, INTEGRATION-E2E
   phase 2 / build step 5) — the full brain driven by the production reasoner
   (Cosmos-Reason2-8B on the RTX PRO host via vLLM): real intent routing, real

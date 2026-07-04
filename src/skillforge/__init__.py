@@ -10,7 +10,9 @@ docs/en/architecture.md.
 
 from __future__ import annotations
 
-from .author import PolicyAuthor, ScriptedAuthor
+from .author import LLMPolicyAuthor, PolicyAuthor, ScriptedAuthor
+from .crystallize import crystallize
+from .dataset import Case, curate, merge
 from .environment import (
     STEP_ROBOT_MS,
     EnvFactory,
@@ -47,6 +49,7 @@ __all__ = [
     "Attempt",
     "AttemptSummary",
     "AttemptTree",
+    "Case",
     "EnvFactory",
     "Environment",
     "EvolutionResult",
@@ -54,6 +57,7 @@ __all__ = [
     "GateResult",
     "Goal",
     "IntegrationReport",
+    "LLMPolicyAuthor",
     "Lab",
     "LabMetrics",
     "LabResult",
@@ -77,11 +81,14 @@ __all__ = [
     "all_suites",
     "baseline_brain",
     "compute",
+    "crystallize",
+    "curate",
     "distance_to_target",
     "evaluate_gate",
     "evolve",
     "find_template",
     "household_suite",
+    "merge",
     "mock_env_factory",
     "object_at_pose",
     "pass_at_k",
