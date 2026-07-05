@@ -37,6 +37,7 @@ from .scenario import (
     household_suite,
 )
 from .scorecard import Scorecard
+from .simbatch import run_sim_batch
 from .store import AttemptSummary, TreeStore
 from .suites import Suite, all_suites
 from .task import Goal, SceneObject, Task, Vec3
@@ -98,6 +99,7 @@ __all__ = [
     "pass_at_k",
     "privacy_template",
     "run_episode",
+    "run_sim_batch",
     "score",
     "tidy_template",
 ]
